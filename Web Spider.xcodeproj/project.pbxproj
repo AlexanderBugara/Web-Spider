@@ -14,6 +14,9 @@
 		116D6AB21DD06B3C005A82E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 116D6AB01DD06B3C005A82E4 /* LaunchScreen.storyboard */; };
 		116D6ABD1DD06B3D005A82E4 /* Web_SpiderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6ABC1DD06B3D005A82E4 /* Web_SpiderTests.m */; };
 		116D6AC91DD06DA5005A82E4 /* WSSearchPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AC81DD06DA5005A82E4 /* WSSearchPageViewController.m */; };
+		116D6ACC1DD07FC1005A82E4 /* WSURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6ACB1DD07FC1005A82E4 /* WSURL.m */; };
+		116D6ACF1DD096AB005A82E4 /* WSRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6ACE1DD096AB005A82E4 /* WSRequestOperation.m */; };
+		116D6AD21DD0AF0C005A82E4 /* WSSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AD11DD0AF0C005A82E4 /* WSSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,12 @@
 		116D6ABE1DD06B3D005A82E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		116D6AC71DD06DA5005A82E4 /* WSSearchPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSSearchPageViewController.h; sourceTree = "<group>"; };
 		116D6AC81DD06DA5005A82E4 /* WSSearchPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSSearchPageViewController.m; sourceTree = "<group>"; };
+		116D6ACA1DD07FC1005A82E4 /* WSURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSURL.h; sourceTree = "<group>"; };
+		116D6ACB1DD07FC1005A82E4 /* WSURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSURL.m; sourceTree = "<group>"; };
+		116D6ACD1DD096AB005A82E4 /* WSRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSRequestOperation.h; sourceTree = "<group>"; };
+		116D6ACE1DD096AB005A82E4 /* WSRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSRequestOperation.m; sourceTree = "<group>"; };
+		116D6AD01DD0AF0C005A82E4 /* WSSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSSettings.h; sourceTree = "<group>"; };
+		116D6AD11DD0AF0C005A82E4 /* WSSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSSettings.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +99,12 @@
 				116D6AA21DD06B3C005A82E4 /* Supporting Files */,
 				116D6AC71DD06DA5005A82E4 /* WSSearchPageViewController.h */,
 				116D6AC81DD06DA5005A82E4 /* WSSearchPageViewController.m */,
+				116D6ACA1DD07FC1005A82E4 /* WSURL.h */,
+				116D6ACB1DD07FC1005A82E4 /* WSURL.m */,
+				116D6ACD1DD096AB005A82E4 /* WSRequestOperation.h */,
+				116D6ACE1DD096AB005A82E4 /* WSRequestOperation.m */,
+				116D6AD01DD0AF0C005A82E4 /* WSSettings.h */,
+				116D6AD11DD0AF0C005A82E4 /* WSSettings.m */,
 			);
 			path = "Web Spider";
 			sourceTree = "<group>";
@@ -213,9 +228,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				116D6ACF1DD096AB005A82E4 /* WSRequestOperation.m in Sources */,
 				116D6AC91DD06DA5005A82E4 /* WSSearchPageViewController.m in Sources */,
 				116D6AA71DD06B3C005A82E4 /* AppDelegate.m in Sources */,
 				116D6AA41DD06B3C005A82E4 /* main.m in Sources */,
+				116D6AD21DD0AF0C005A82E4 /* WSSettings.m in Sources */,
+				116D6ACC1DD07FC1005A82E4 /* WSURL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
