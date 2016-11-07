@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class WSSearchPageViewController;
+@class WSSearchPageViewController, WSURL;
 
 @interface WSSettings : NSObject
 - (instancetype)initWithSearchViewControler:(WSSearchPageViewController *)searchViewController;
 - (void)refreshTitle;
 - (void)updateTitle:(NSString *)titleURL;
-- (NSString *)searchURL;
+- (WSURL *)searchURL;
+- (NSString *)searchURLAbsolutePath;
 @end

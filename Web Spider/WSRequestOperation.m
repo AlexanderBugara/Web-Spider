@@ -43,16 +43,30 @@
 
 - (void)main {
   @try {
-    // Do some work on myData and report the results.
-    BOOL isDone = NO;
     
-    while (![self isCancelled] && !isDone) {
-      // Do some work and set isDone to YES when finished
-    }
+    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
+                                          dataTaskWithURL:self.url
+                                          completionHandler:^(NSData *data,
+                                                              NSURLResponse *response,
+                                                              NSError *error) {
+                                            
+                                            NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                            
+                                          }];
+    [downloadTask resume];
+    
   }
   @catch(...) {
     // Do not rethrow exceptions.
   }
 }
 
+
+// Do some work on myData and report the results.
+//    BOOL isDone = NO;
+//
+//    while (![self isCancelled] && !isDone) {
+//      // Do some work and set isDone to YES when finished
+//      // NSURLSession *session = [[NSURLSessio alloc] ini]
+//    }
 @end

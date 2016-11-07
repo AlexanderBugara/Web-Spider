@@ -112,7 +112,7 @@ const NSInteger kMaxThreadsCount = 8;
   [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField)
    {
      textField.placeholder = NSLocalizedString(@"http://", @"Popup.controller.enterurl.placeholder");
-     textField.text = [weakSelf.settings searchURL];
+     textField.text = [weakSelf.settings searchURLAbsolutePath];
    }];
   
   
@@ -177,5 +177,11 @@ const NSInteger kMaxThreadsCount = 8;
   return _operationQueue;
 }
 
+- (WSURL *)siteURL {
+  if (!_siteURL) {
+    _siteURL = [self.settings searchURL];
+  }
+  return _siteURL;
+}
 
 @end

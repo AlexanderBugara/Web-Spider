@@ -8,6 +8,7 @@
 
 #import "WSSettings.h"
 #import "WSSearchPageViewController.h"
+#import "WSURL.h"
 
 @interface WSSettings()
 @property (nonatomic, weak) WSSearchPageViewController *searchPageViewController;
@@ -22,7 +23,7 @@
 }
 
 - (void)refreshTitle {
-  self.searchPageViewController.navigationItem.title = [self searchURL];
+  self.searchPageViewController.navigationItem.title = [self searchURLAbsolutePath];
 }
 
 - (void)updateTitle:(NSString *)titleURL {
@@ -33,7 +34,11 @@
   }
 }
 
-- (NSString *)searchURL {
+- (WSURL *)searchURL {
+  return [WSURL URLWithString:[self searchURLAbsolutePath]];
+}
+
+- (NSString *)searchURLAbsolutePath {
   return [[NSUserDefaults standardUserDefaults] objectForKey:@"search.url"];
 }
 
