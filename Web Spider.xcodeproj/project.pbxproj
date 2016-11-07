@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		116D6AA41DD06B3C005A82E4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AA31DD06B3C005A82E4 /* main.m */; };
 		116D6AA71DD06B3C005A82E4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AA61DD06B3C005A82E4 /* AppDelegate.m */; };
-		116D6AAA1DD06B3C005A82E4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AA91DD06B3C005A82E4 /* ViewController.m */; };
 		116D6AAD1DD06B3C005A82E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 116D6AAB1DD06B3C005A82E4 /* Main.storyboard */; };
 		116D6AAF1DD06B3C005A82E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 116D6AAE1DD06B3C005A82E4 /* Assets.xcassets */; };
 		116D6AB21DD06B3C005A82E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 116D6AB01DD06B3C005A82E4 /* LaunchScreen.storyboard */; };
 		116D6ABD1DD06B3D005A82E4 /* Web_SpiderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6ABC1DD06B3D005A82E4 /* Web_SpiderTests.m */; };
+		116D6AC91DD06DA5005A82E4 /* WSSearchPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AC81DD06DA5005A82E4 /* WSSearchPageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,8 +31,6 @@
 		116D6AA31DD06B3C005A82E4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		116D6AA51DD06B3C005A82E4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		116D6AA61DD06B3C005A82E4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		116D6AA81DD06B3C005A82E4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		116D6AA91DD06B3C005A82E4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		116D6AAC1DD06B3C005A82E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		116D6AAE1DD06B3C005A82E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		116D6AB11DD06B3C005A82E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -40,6 +38,8 @@
 		116D6AB81DD06B3D005A82E4 /* Web SpiderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Web SpiderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		116D6ABC1DD06B3D005A82E4 /* Web_SpiderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Web_SpiderTests.m; sourceTree = "<group>"; };
 		116D6ABE1DD06B3D005A82E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		116D6AC71DD06DA5005A82E4 /* WSSearchPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSSearchPageViewController.h; sourceTree = "<group>"; };
+		116D6AC81DD06DA5005A82E4 /* WSSearchPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSSearchPageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,13 +83,13 @@
 			children = (
 				116D6AA51DD06B3C005A82E4 /* AppDelegate.h */,
 				116D6AA61DD06B3C005A82E4 /* AppDelegate.m */,
-				116D6AA81DD06B3C005A82E4 /* ViewController.h */,
-				116D6AA91DD06B3C005A82E4 /* ViewController.m */,
 				116D6AAB1DD06B3C005A82E4 /* Main.storyboard */,
 				116D6AAE1DD06B3C005A82E4 /* Assets.xcassets */,
 				116D6AB01DD06B3C005A82E4 /* LaunchScreen.storyboard */,
 				116D6AB31DD06B3C005A82E4 /* Info.plist */,
 				116D6AA21DD06B3C005A82E4 /* Supporting Files */,
+				116D6AC71DD06DA5005A82E4 /* WSSearchPageViewController.h */,
+				116D6AC81DD06DA5005A82E4 /* WSSearchPageViewController.m */,
 			);
 			path = "Web Spider";
 			sourceTree = "<group>";
@@ -213,7 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				116D6AAA1DD06B3C005A82E4 /* ViewController.m in Sources */,
+				116D6AC91DD06DA5005A82E4 /* WSSearchPageViewController.m in Sources */,
 				116D6AA71DD06B3C005A82E4 /* AppDelegate.m in Sources */,
 				116D6AA41DD06B3C005A82E4 /* main.m in Sources */,
 			);

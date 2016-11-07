@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  WSSearchPageViewController.h
 //  Web Spider
 //
 //  Created by Alexander on 11/7/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface WSSearchPageViewController : UITableViewController
 
 @end
-
