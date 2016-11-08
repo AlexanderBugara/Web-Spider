@@ -23,14 +23,14 @@
 }
 
 - (void)refreshTitle {
-  self.searchPageViewController.navigationItem.title = [self searchURLAbsolutePath];
+  self.searchPageViewController.urlLabel.text = [self searchURLAbsolutePath];
 }
 
 - (void)updateTitle:(NSString *)titleURL {
   if (titleURL) {
-    self.searchPageViewController.navigationItem.title = titleURL;
     [[NSUserDefaults standardUserDefaults] setObject:titleURL forKey:@"search.url"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [self refreshTitle];
   }
 }
 

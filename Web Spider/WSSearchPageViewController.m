@@ -10,6 +10,9 @@
 #import "WSURL.h"
 #import "WSRequestOperation.h"
 #import "WSSettings.h"
+#import "WSState.h"
+#import "WSEditState.h"
+#import "WSSearchState.h"
 
 @interface WSSearchPageViewController ()
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -20,6 +23,8 @@
 
 
 const NSInteger kMaxThreadsCount = 8;
+const NSInteger kMaxKeywordCount = 500;
+const NSInteger kMaxDeep = 5;
 
 @implementation WSSearchPageViewController
 
@@ -30,9 +35,10 @@ const NSInteger kMaxThreadsCount = 8;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(presentURLEditPopup:)];
-    [self.navigationController.view addGestureRecognizer:tapGestureRecognizer];
+  
     [self.settings refreshTitle];
+  
+    self.currentState = [WSEditState stateWithSearchController:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -158,8 +164,10 @@ const NSInteger kMaxThreadsCount = 8;
   
   self.keyWord = searchBar.text;
   
+  
+  
   if ([self isValidForSearch]) {
-    
+    [self switchToSearch];
     [[self operationQueue] addOperation:[WSRequestOperation operationWithURL:self.siteURL andKeyword:self.keyWord]];
     
   }
@@ -182,6 +190,36 @@ const NSInteger kMaxThreadsCount = 8;
     _siteURL = [self.settings searchURL];
   }
   return _siteURL;
+}
+
+- (void)switchToSearch {
+  [self.currentState goToState:[WSSearchState stateWithSearchController:self]];
+}
+
+- (void)cancel {
+  
+}
+
+- (void)pause {
+  
+}
+
+- (void)resume {
+  
+}
+
+- (void)enableSearchBar {
+  self.searchBar.userInteractionEnabled = YES;
+  self.searchBar.translucent = YES;
+  self.searchBar.searchBarStyle = UISearchBarStyleDefault;
+  self.searchBar.backgroundColor = [UIColor clearColor];
+}
+
+- (void)disableSearchBar {
+  self.searchBar.userInteractionEnabled = NO;
+  self.searchBar.translucent = NO;
+  self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+  self.searchBar.backgroundColor = [UIColor lightGrayColor];
 }
 
 @end

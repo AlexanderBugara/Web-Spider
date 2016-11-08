@@ -8,6 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WSSearchPageViewController : UITableViewController
+@class WSState;
+
+@interface WSSearchPageViewController : UITableViewController<UISearchBarDelegate>
+
+@property (nonatomic, strong) WSState *currentState;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UILabel *urlLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
+
+- (void)presentURLEditPopup:(id)sender;
+- (void)cancel;
+- (void)pause;
+- (void)resume;
+
+- (void)disableSearchBar;
+- (void)enableSearchBar;
 
 @end
