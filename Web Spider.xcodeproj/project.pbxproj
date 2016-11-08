@@ -17,6 +17,8 @@
 		116D6ACC1DD07FC1005A82E4 /* WSURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6ACB1DD07FC1005A82E4 /* WSURL.m */; };
 		116D6ACF1DD096AB005A82E4 /* WSRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6ACE1DD096AB005A82E4 /* WSRequestOperation.m */; };
 		116D6AD21DD0AF0C005A82E4 /* WSSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AD11DD0AF0C005A82E4 /* WSSettings.m */; };
+		116D6AE91DD12421005A82E4 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 116D6AE81DD12421005A82E4 /* libxml2.tbd */; };
+		A873768624A37831BFAF6DC9 /* libPods-Web Spider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67647527D081557A3012E43C /* libPods-Web Spider.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,10 @@
 		116D6ACE1DD096AB005A82E4 /* WSRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSRequestOperation.m; sourceTree = "<group>"; };
 		116D6AD01DD0AF0C005A82E4 /* WSSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSSettings.h; sourceTree = "<group>"; };
 		116D6AD11DD0AF0C005A82E4 /* WSSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSSettings.m; sourceTree = "<group>"; };
+		116D6AE81DD12421005A82E4 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		67647527D081557A3012E43C /* libPods-Web Spider.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Web Spider.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		692C7905BAB9B3A3AC4AB39C /* Pods-Web Spider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Web Spider.release.xcconfig"; path = "Pods/Target Support Files/Pods-Web Spider/Pods-Web Spider.release.xcconfig"; sourceTree = "<group>"; };
+		8E498F80C541A76EC5E4AD8E /* Pods-Web Spider.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Web Spider.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Web Spider/Pods-Web Spider.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				116D6AE91DD12421005A82E4 /* libxml2.tbd in Frameworks */,
+				A873768624A37831BFAF6DC9 /* libPods-Web Spider.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +83,8 @@
 				116D6AA11DD06B3C005A82E4 /* Web Spider */,
 				116D6ABB1DD06B3D005A82E4 /* Web SpiderTests */,
 				116D6AA01DD06B3C005A82E4 /* Products */,
+				116D6AE71DD12421005A82E4 /* Frameworks */,
+				F5E563DB27260F9F0E6D7844 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,6 +136,24 @@
 			path = "Web SpiderTests";
 			sourceTree = "<group>";
 		};
+		116D6AE71DD12421005A82E4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				116D6AE81DD12421005A82E4 /* libxml2.tbd */,
+				67647527D081557A3012E43C /* libPods-Web Spider.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F5E563DB27260F9F0E6D7844 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8E498F80C541A76EC5E4AD8E /* Pods-Web Spider.debug.xcconfig */,
+				692C7905BAB9B3A3AC4AB39C /* Pods-Web Spider.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -133,9 +161,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 116D6AC11DD06B3D005A82E4 /* Build configuration list for PBXNativeTarget "Web Spider" */;
 			buildPhases = (
+				87A570EF34FEBF8F21BFDCE2 /* Check Pods Manifest.lock */,
 				116D6A9B1DD06B3C005A82E4 /* Sources */,
 				116D6A9C1DD06B3C005A82E4 /* Frameworks */,
 				116D6A9D1DD06B3C005A82E4 /* Resources */,
+				43BE2B9E647D5A00C290D234 /* Embed Pods Frameworks */,
+				46E67F0F8532A9A467AC24ED /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -222,6 +253,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		43BE2B9E647D5A00C290D234 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Web Spider/Pods-Web Spider-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		46E67F0F8532A9A467AC24ED /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Web Spider/Pods-Web Spider-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		87A570EF34FEBF8F21BFDCE2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		116D6A9B1DD06B3C005A82E4 /* Sources */ = {
@@ -367,8 +446,10 @@
 		};
 		116D6AC21DD06B3D005A82E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E498F80C541A76EC5E4AD8E /* Pods-Web Spider.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Web Spider/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exs.application.Web-Spider";
@@ -378,8 +459,10 @@
 		};
 		116D6AC31DD06B3D005A82E4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 692C7905BAB9B3A3AC4AB39C /* Pods-Web Spider.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Web Spider/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.exs.application.Web-Spider";
@@ -430,6 +513,7 @@
 				116D6AC31DD06B3D005A82E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		116D6AC41DD06B3D005A82E4 /* Build configuration list for PBXNativeTarget "Web SpiderTests" */ = {
 			isa = XCConfigurationList;
@@ -438,6 +522,7 @@
 				116D6AC61DD06B3D005A82E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

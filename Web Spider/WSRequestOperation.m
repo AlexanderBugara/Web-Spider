@@ -8,6 +8,7 @@
 
 #import "WSRequestOperation.h"
 #import "WSURL.h"
+#import "HTMLReader.h"
 
 @implementation WSRequestOperation
 
@@ -23,50 +24,55 @@
   return operation;
 }
 
-//- (void)start {
-//  // Always check for cancellation before launching the task.
-//  if ([self isCancelled])
-//  {
-//    // Must move the operation to the finished state if it is canceled.
-//    [self willChangeValueForKey:@"isFinished"];
-//    finished = YES;
-//    [self didChangeValueForKey:@"isFinished"];
-//    return;
-//  }
-//  
-//  // If the operation is not canceled, begin executing the task.
-//  [self willChangeValueForKey:@"isExecuting"];
-//  [NSThread detachNewThreadSelector:@selector(main) toTarget:self withObject:nil];
-//  executing = YES;
-//  [self didChangeValueForKey:@"isExecuting"];
-//}
-
 - (void)main {
   @try {
     
-    NSURLSessionDataTask *downloadTask = [[NSURLSession sharedSession]
-                                          dataTaskWithURL:self.url
-                                          completionHandler:^(NSData *data,
-                                                              NSURLResponse *response,
-                                                              NSError *error) {
-                                            
-                                            NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                            
-                                          }];
-    [downloadTask resume];
+    __weak __typeof(self) weakSelf = self;
     
+    [[[NSURLSession sharedSession]
+    dataTaskWithURL:self.url
+    completionHandler:^(NSData *data,
+                        NSURLResponse *response,
+                        NSError *error) {
+      
+      
+      
+      NSString *contentType = nil;
+      if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
+        contentType = headers[@"Content-Type"];
+      }
+      
+      HTMLDocument *document = [HTMLDocument documentWithData:data contentTypeHeader:contentType];
+      [weakSelf findAllKeywordsInDocument:document];
+      
+      NSArray *elements = [document nodesMatchingSelector:@"a"];
+      for (HTMLElement *element in elements) {
+        WSURL *URL = [WSURL URLWithString:element[@"href"]];
+      }
+      
+    }] resume];
   }
   @catch(...) {
     // Do not rethrow exceptions.
   }
 }
 
+- (void)findAllKeywordsInDocument:(HTMLNode *)node {
+  NSMutableArray * elements = [NSMutableArray array];
+  [elements addObject:node];
+  
+  while([elements count]) {
+    HTMLNode * current = [elements objectAtIndex:0];
+    for(HTMLNode *child in current.children) {
+      if ([child isKindOfClass:[HTMLTextNode class]] && 
+          [[[(HTMLTextNode *)child data] lowercaseString] containsString:[self.keyWord lowercaseString]]) {
+      }
+      [elements addObject:child];
+    }
+    
+    [elements removeObjectAtIndex:0];
+  }
+}
 
-// Do some work on myData and report the results.
-//    BOOL isDone = NO;
-//
-//    while (![self isCancelled] && !isDone) {
-//      // Do some work and set isDone to YES when finished
-//      // NSURLSession *session = [[NSURLSessio alloc] ini]
-//    }
 @end
