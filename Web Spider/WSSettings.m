@@ -18,6 +18,8 @@
 - (instancetype)initWithSearchViewControler:(WSSearchPageViewController *)searchViewController {
   if (self = [super init]) {
     _searchPageViewController = searchViewController;
+    if (![self searchURLAbsolutePath])
+      [self updateTitle:NSLocalizedString(@"http://Your URL Here", @"search.URL")];
   }
   return self;
 }

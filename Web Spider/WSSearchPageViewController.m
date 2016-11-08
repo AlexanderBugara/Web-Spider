@@ -13,102 +13,69 @@
 #import "WSState.h"
 #import "WSEditState.h"
 #import "WSSearchState.h"
+#import "WSPauseState.h"
+#import "CEObservableMutableArray.h"
 
-@interface WSSearchPageViewController ()
+@interface WSSearchPageViewController ()<CEObservableMutableArrayDelegate>
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) WSURL *siteURL;
 @property (nonatomic, strong) NSString *keyWord;
 @property (nonatomic, strong) WSSettings *settings;
+@property (nonatomic, strong) CEObservableMutableArray *operations;
+@property (nonatomic, strong) NSMutableSet *urlsSet;
+@property (assign) NSInteger keywordFoundedNumber;
+@property (atomic, assign) NSInteger activeOperationsCount;
+@property (atomic, assign) NSInteger parsedPagesCount;
+@property (atomic, assign) NSInteger foundedKewordPagesCount;
 @end
 
 
 const NSInteger kMaxThreadsCount = 8;
 const NSInteger kMaxKeywordCount = 500;
-const NSInteger kMaxDeep = 5;
+
 
 @implementation WSSearchPageViewController
 
 - (void)awakeFromNib {
   [super awakeFromNib];
   _settings = [[WSSettings alloc] initWithSearchViewControler:self];
+  _operations = [[CEObservableMutableArray alloc] init];
+  _operations.delegate = self;
+  _urlsSet = [NSMutableSet set];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
   
     [self.settings refreshTitle];
-  
     self.currentState = [WSEditState stateWithSearchController:self];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return [self.operations count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+  
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"search.result.cell" forIndexPath:indexPath];
+  
+    WSRequestOperation *requestOperation = self.operations[indexPath.row];
+    if (requestOperation.error) {
+      cell.textLabel.text = [requestOperation.error localizedDescription];
+    } else {
+      cell.textLabel.text = [requestOperation.url absoluteString];
+    }
+  
     return cell;
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (void)presentURLEditPopup:(id)sender {
   
   UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"", @"Popup.controller.enterurl.title") message:NSLocalizedString(@"Please, enter your url", @"Popup.controller.enterurl.message") preferredStyle:UIAlertControllerStyleAlert];
@@ -161,20 +128,27 @@ const NSInteger kMaxDeep = 5;
 #pragma mark Search delegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-  
   self.keyWord = searchBar.text;
-  
-  
   
   if ([self isValidForSearch]) {
     [self switchToSearch];
-    [[self operationQueue] addOperation:[WSRequestOperation operationWithURL:self.siteURL andKeyword:self.keyWord]];
+    
+    WSRequestOperation *requestoperation = [WSRequestOperation operationWithURL:self.siteURL andKeyword:self.keyWord];
+    
+    [self.operations addObject:requestoperation];
     
   }
 }
 
 - (BOOL)isValidForSearch {
-  return YES;
+  BOOL result = NO;
+  if ([WSURL isStringValidForCreationURL:self.urlLabel.text]) {
+    self.siteURL = [WSURL URLWithString:self.urlLabel.text];
+    result = YES;
+  } else {
+    self.urlLabel.text = @"Wrong URL...";
+  }
+  return result;
 }
 
 - (NSOperationQueue *)operationQueue {
@@ -197,15 +171,15 @@ const NSInteger kMaxDeep = 5;
 }
 
 - (void)cancel {
-  
+  [self.currentState goToState:[WSEditState stateWithSearchController:self]];
 }
 
 - (void)pause {
-  
+  [self.currentState goToState:[WSPauseState stateWithSearchController:self]];
 }
 
 - (void)resume {
-  
+  [self.currentState goToState:[WSSearchState stateWithSearchController:self]];
 }
 
 - (void)enableSearchBar {
@@ -222,4 +196,80 @@ const NSInteger kMaxDeep = 5;
   self.searchBar.backgroundColor = [UIColor lightGrayColor];
 }
 
+- (void)array:(CEObservableMutableArray *)array didAddItemAtIndex:(NSUInteger) index {
+  WSRequestOperation *requestOperation = array[index];
+  
+  [requestOperation addObserver:self forKeyPath:@"isExecuting" options:NSKeyValueObservingOptionNew context:nil];
+  
+  [self setupComplitionHandler:requestOperation];
+  
+  [[self operationQueue] addOperation:requestOperation];
+  [self.tableView reloadData];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+  
+  __weak __typeof (self) weakSelf = self;
+  
+  dispatch_async(dispatch_get_main_queue(), ^{
+    
+    if ([keyPath stringByAppendingString:@"isExecuting"] &&
+        [change[@"new"] boolValue]) {
+      ++weakSelf.activeOperationsCount;
+    } else if ([keyPath stringByAppendingString:@"isExecuting"] &&
+               ![change[@"new"] boolValue]) {
+      --weakSelf.activeOperationsCount;
+    }
+    
+    
+  });
+ 
+}
+
+- (void)setupComplitionHandler:(WSRequestOperation *)requestOperation {
+  
+  __weak WSRequestOperation *weakRequestOperation = requestOperation;
+  __weak __typeof (self) weakSelf = self;
+  
+  requestOperation.completionBlock = ^(void) {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      
+      if (!weakRequestOperation.error) {
+        NSArray *nextLevelOperations = [weakRequestOperation nextLevelOperations];
+        
+        for (WSRequestOperation *requestOperation in nextLevelOperations) {
+          [weakSelf.operations addObject:requestOperation];
+          [weakSelf setupComplitionHandler:requestOperation];
+        }
+        
+        ++weakSelf.parsedPagesCount;
+        
+        if (weakRequestOperation.foundedKeywordCount > 0) {
+          ++weakSelf.foundedKewordPagesCount;
+        }
+        
+        [weakSelf.operations removeObject:weakRequestOperation];
+        
+        [weakSelf updateStatusBar];
+      }
+      
+    });
+    
+    
+  };
+}
+
+- (void)updateStatusBar {
+  self.statusLabel.text = [NSString stringWithFormat:@"th: %ld p: %ld p result: %ld",(long)self.activeOperationsCount, (long)self.parsedPagesCount, (long)self.foundedKewordPagesCount];
+
+}
+
+- (void)array:(CEObservableMutableArray *)array didRemoveItemAtIndex:(NSUInteger) index {
+  [self updateStatusBar];
+  [self.tableView reloadData];
+}
 @end

@@ -10,11 +10,18 @@
 
 @class WSURL;
 
-@interface WSRequestOperation : NSOperation
+@interface WSRequestOperation : NSOperation {
+  BOOL        executing;
+  BOOL        finished;
+}
 
 @property (nonatomic, strong) WSURL *url;
 @property (nonatomic, strong) NSString *keyWord;
+@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) NSMutableArray *references;
+@property (assign) NSInteger level;
+@property (assign) NSInteger foundedKeywordCount;
 
 + (WSRequestOperation *)operationWithURL:(WSURL *)url andKeyword:(NSString *)keyWord;
-
+- (NSArray *)nextLevelOperations;
 @end

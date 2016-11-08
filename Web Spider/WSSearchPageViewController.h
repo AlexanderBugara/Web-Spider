@@ -25,5 +25,5 @@
 
 - (void)disableSearchBar;
 - (void)enableSearchBar;
-
+- (NSOperationQueue *)operationQueue;
 @end

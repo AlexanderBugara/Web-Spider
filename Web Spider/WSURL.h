@@ -10,4 +10,6 @@
 
 @interface WSURL : NSURL
 + (BOOL)isStringValidForCreationURL:(NSString *)candidate;
+- (NSString *)fixedWithScheme:(NSString *)scheme
+                      andHost:(NSString *)host;
 @end

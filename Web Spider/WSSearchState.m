@@ -22,6 +22,8 @@
     searchPageViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Pause", @"search.pause") style:UIBarButtonItemStylePlain target:searchPageViewController action:@selector(pause)];
     
     [searchPageViewController disableSearchBar];
+    
+    [[searchPageViewController operationQueue] setSuspended:NO];
 
   }
   return self;

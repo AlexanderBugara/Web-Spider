@@ -11,6 +11,7 @@
 		1147D2F91DD1BEF8003B840B /* WSState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147D2F81DD1BEF8003B840B /* WSState.m */; };
 		1147D2FF1DD1C30E003B840B /* WSEditState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147D2FE1DD1C30E003B840B /* WSEditState.m */; };
 		1147D3021DD1DB1E003B840B /* WSPauseState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147D3011DD1DB1E003B840B /* WSPauseState.m */; };
+		1147D3051DD1E409003B840B /* CEObservableMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147D3041DD1E409003B840B /* CEObservableMutableArray.m */; };
 		116D6AA41DD06B3C005A82E4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AA31DD06B3C005A82E4 /* main.m */; };
 		116D6AA71DD06B3C005A82E4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 116D6AA61DD06B3C005A82E4 /* AppDelegate.m */; };
 		116D6AAD1DD06B3C005A82E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 116D6AAB1DD06B3C005A82E4 /* Main.storyboard */; };
@@ -44,6 +45,8 @@
 		1147D2FE1DD1C30E003B840B /* WSEditState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSEditState.m; sourceTree = "<group>"; };
 		1147D3001DD1DB1E003B840B /* WSPauseState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSPauseState.h; sourceTree = "<group>"; };
 		1147D3011DD1DB1E003B840B /* WSPauseState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSPauseState.m; sourceTree = "<group>"; };
+		1147D3031DD1E409003B840B /* CEObservableMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEObservableMutableArray.h; sourceTree = "<group>"; };
+		1147D3041DD1E409003B840B /* CEObservableMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEObservableMutableArray.m; sourceTree = "<group>"; };
 		116D6A9F1DD06B3C005A82E4 /* Web Spider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Web Spider.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		116D6AA31DD06B3C005A82E4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		116D6AA51DD06B3C005A82E4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -143,6 +146,8 @@
 				1147D2F51DD1BD69003B840B /* WSSearchState.m */,
 				1147D3001DD1DB1E003B840B /* WSPauseState.h */,
 				1147D3011DD1DB1E003B840B /* WSPauseState.m */,
+				1147D3031DD1E409003B840B /* CEObservableMutableArray.h */,
+				1147D3041DD1E409003B840B /* CEObservableMutableArray.m */,
 			);
 			path = "Web Spider";
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 			files = (
 				1147D3021DD1DB1E003B840B /* WSPauseState.m in Sources */,
 				1147D2F61DD1BD69003B840B /* WSSearchState.m in Sources */,
+				1147D3051DD1E409003B840B /* CEObservableMutableArray.m in Sources */,
 				116D6ACF1DD096AB005A82E4 /* WSRequestOperation.m in Sources */,
 				116D6AC91DD06DA5005A82E4 /* WSSearchPageViewController.m in Sources */,
 				116D6AA71DD06B3C005A82E4 /* AppDelegate.m in Sources */,

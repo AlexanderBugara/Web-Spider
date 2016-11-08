@@ -19,4 +19,15 @@
   
   return NO;
 }
+
+- (NSString *)fixedWithScheme:(NSString *)scheme
+              andHost:(NSString *)host {
+  scheme = [scheme stringByAppendingString:@"://"];
+  NSString *firstPart = [scheme stringByAppendingString:host];
+  firstPart = [firstPart stringByAppendingString:@"/"];
+  
+  NSString *absoluteString = [firstPart stringByAppendingString:self.absoluteString];
+  
+  return absoluteString;
+}
 @end
