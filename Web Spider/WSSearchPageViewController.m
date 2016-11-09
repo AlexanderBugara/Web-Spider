@@ -201,6 +201,7 @@ const NSInteger kMaxKeywordCount = 500;
   WSRequestOperation *requestOperation = array[index];
   
   [requestOperation addObserver:self forKeyPath:@"isExecuting" options:NSKeyValueObservingOptionNew context:nil];
+  [requestOperation addObserver:self forKeyPath:@"foundedKeywordCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
   
   [self setupComplitionHandler:requestOperation];
   
@@ -217,15 +218,23 @@ const NSInteger kMaxKeywordCount = 500;
   
   dispatch_async(dispatch_get_main_queue(), ^{
     
-    if ([keyPath stringByAppendingString:@"isExecuting"] &&
+    if ([keyPath isEqualToString:@"isExecuting"] &&
         [change[@"new"] boolValue]) {
       ++weakSelf.activeOperationsCount;
-    } else if ([keyPath stringByAppendingString:@"isExecuting"] &&
+      [weakSelf updateStatusBar];
+    } else if ([keyPath isEqualToString:@"isExecuting"] &&
                ![change[@"new"] boolValue]) {
       --weakSelf.activeOperationsCount;
-    }
-    [weakSelf updateStatusBar];
+      [weakSelf updateStatusBar];
+    } else if ([keyPath isEqualToString:@"foundedKeywordCount"]) {
     
+      WSRequestOperation *requestOperation = (WSRequestOperation *)object;
+      NSInteger index = [weakSelf.operations indexOfObject:requestOperation];
+      UITableViewCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+      NSString *status = (requestOperation.isExecuting)?@"executing":@"in queue";
+      cell.detailTextLabel.text = [NSString stringWithFormat:@"status: %@ keyword count: %ld",status,[change[@"new"] integerValue]];
+      
+    }
   });
  
 }
@@ -252,6 +261,10 @@ const NSInteger kMaxKeywordCount = 500;
         if (weakRequestOperation.foundedKeywordCount > 0) {
           ++weakSelf.foundedKewordPagesCount;
         }
+        
+        
+        [weakRequestOperation removeObserver:self forKeyPath:@"isExecuting"];
+        [weakRequestOperation removeObserver:self forKeyPath:@"foundedKeywordCount"];
         
         [weakSelf.operations removeObject:weakRequestOperation];
         

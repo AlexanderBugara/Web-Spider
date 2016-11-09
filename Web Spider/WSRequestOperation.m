@@ -13,6 +13,9 @@
 
 const NSInteger kMaxDeep = 5;
 
+@interface WSRequestOperation ()
+@end
+
 @implementation WSRequestOperation
 
 + (WSRequestOperation *)operation {
@@ -30,44 +33,49 @@ const NSInteger kMaxDeep = 5;
 - (void)main {
   @try {
     __weak __typeof(self) weakSelf = self;
-    
-    [[[NSURLSession sharedSession]
-    dataTaskWithURL:self.url
-    completionHandler:^(NSData *data,
-                        NSURLResponse *response,
-                        NSError *error) {
-      
-      
-      if (error) {
-        weakSelf.error = error;
-      } else {
-      
-        NSString *contentType = nil;
-        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-          NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
-          contentType = headers[@"Content-Type"];
-        }
-        
-        HTMLDocument *document = [HTMLDocument documentWithData:data contentTypeHeader:contentType];
-        [weakSelf findAllKeywordsInDocument:document];
-        
-        NSArray *elements = [document nodesMatchingSelector:@"a"];
-        for (HTMLElement *element in elements) {
-          WSURL *URL = [WSURL URLWithString:element[@"href"]];
+    if (![self isCancelled]) {
+      [[[NSURLSession sharedSession]
+        dataTaskWithURL:self.url
+        completionHandler:^(NSData *data,
+                            NSURLResponse *response,
+                            NSError *error) {
           
-          if (URL && (!URL.host || !URL.scheme)) {
-            NSString *absolutePath = [URL fixedWithScheme:self.url.scheme andHost:self.url.host];
-            URL = [WSURL URLWithString:absolutePath];
+          
+          if (error) {
+            weakSelf.error = error;
+          } else {
+            
+            NSString *contentType = nil;
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+              NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
+              contentType = headers[@"Content-Type"];
+            }
+            
+            HTMLDocument *document = [HTMLDocument documentWithData:data contentTypeHeader:contentType];
+            [weakSelf findAllKeywordsInDocument:document];
+            
+            NSArray *elements = [document nodesMatchingSelector:@"a"];
+            for (HTMLElement *element in elements) {
+              
+              if ([weakSelf isCancelled]) break;
+              WSURL *URL = [WSURL URLWithString:element[@"href"]];
+              
+              if (URL && (!URL.host || !URL.scheme)) {
+                NSString *absolutePath = [URL fixedWithScheme:self.url.scheme andHost:self.url.host];
+                URL = [WSURL URLWithString:absolutePath];
+              }
+              
+              if (URL) [weakSelf.references addObject:URL];
+              
+            }
           }
           
-          if (URL) [weakSelf.references addObject:URL];
+          [weakSelf completeOperation];
           
-        }
-      }
-      
+        }] resume];
+    } else {
       [weakSelf completeOperation];
-      
-    }] resume];
+    }
   }
   @catch(...) {
     // Do not rethrow exceptions.
@@ -81,10 +89,12 @@ const NSInteger kMaxDeep = 5;
   while([elements count]) {
     HTMLNode * current = [elements objectAtIndex:0];
     for(HTMLNode *child in current.children) {
-      if ([child isKindOfClass:[HTMLTextNode class]] && 
+      if ([child isKindOfClass:[HTMLTextNode class]] &&
           [[[(HTMLTextNode *)child data] lowercaseString] containsString:[self.keyWord lowercaseString]]) {
         
-        ++self.foundedKeywordCount;
+        [self willChangeValueForKey:@"foundedKeywordCount"];
+        ++_foundedKeywordCount;
+        [self didChangeValueForKey:@"foundedKeywordCount"];
         
       }
       [elements addObject:child];
@@ -143,6 +153,9 @@ const NSInteger kMaxDeep = 5;
 }
 
 - (NSArray *)nextLevelOperations {
+  
+  if ([self isCancelled]) return nil;
+  
   NSMutableArray *result = [NSMutableArray array];
   if (self.level < kMaxDeep) {
     for (WSURL *url in self.references) {
