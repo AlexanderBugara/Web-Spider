@@ -55,7 +55,7 @@ const NSInteger kMaxDeep = 5;
         for (HTMLElement *element in elements) {
           WSURL *URL = [WSURL URLWithString:element[@"href"]];
           
-          if (URL && !URL.host && !URL.scheme) {
+          if (URL && (!URL.host || !URL.scheme)) {
             NSString *absolutePath = [URL fixedWithScheme:self.url.scheme andHost:self.url.host];
             URL = [WSURL URLWithString:absolutePath];
           }

@@ -22,9 +22,24 @@
 
 - (NSString *)fixedWithScheme:(NSString *)scheme
               andHost:(NSString *)host {
-  scheme = [scheme stringByAppendingString:@"://"];
-  NSString *firstPart = [scheme stringByAppendingString:host];
-  firstPart = [firstPart stringByAppendingString:@"/"];
+  
+  NSString *firstPart = nil;
+  if (self.host) {
+    scheme = [scheme stringByAppendingString:@":"];
+    firstPart = scheme;
+  } else {
+    scheme = [scheme stringByAppendingString:@"://"];
+    
+    NSString *firstPart = [scheme stringByAppendingString:host];
+    
+    if (![self.absoluteString hasPrefix:@"/"]) {
+      firstPart = [firstPart stringByAppendingString:@"/"];
+    }
+  }
+  
+  
+  
+  
   
   NSString *absoluteString = [firstPart stringByAppendingString:self.absoluteString];
   

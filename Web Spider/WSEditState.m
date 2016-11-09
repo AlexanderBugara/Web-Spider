@@ -26,7 +26,7 @@
   [super goToState:state];
 }
 
-- (instancetype)initStateWithSearchController:(WSSearchPageViewController *)searchPageViewController; {
+- (instancetype)initStateWithSearchController:(WSSearchPageViewController *)searchPageViewController {
   if (self = [super initStateWithSearchController:searchPageViewController]) {
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:searchPageViewController action:@selector(presentURLEditPopup:)];
@@ -35,6 +35,13 @@
     self.tapGestureRecognizer = tapGestureRecognizer;
     
     [searchPageViewController enableSearchBar];
+    
+    [searchPageViewController.operationQueue cancelAllOperations];
+    [searchPageViewController resetSearchProgress];
+    
+    searchPageViewController.navigationItem.leftBarButtonItem = nil;
+    searchPageViewController.navigationItem.rightBarButtonItem = nil;
+    
   }
   return self;
 }

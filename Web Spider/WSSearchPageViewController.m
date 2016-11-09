@@ -23,7 +23,7 @@
 @property (nonatomic, strong) WSSettings *settings;
 @property (nonatomic, strong) CEObservableMutableArray *operations;
 @property (nonatomic, strong) NSMutableSet *urlsSet;
-@property (assign) NSInteger keywordFoundedNumber;
+@property (assign) NSInteger totalKeyWords;
 @property (atomic, assign) NSInteger activeOperationsCount;
 @property (atomic, assign) NSInteger parsedPagesCount;
 @property (atomic, assign) NSInteger foundedKewordPagesCount;
@@ -49,6 +49,7 @@ const NSInteger kMaxKeywordCount = 500;
   
     [self.settings refreshTitle];
     self.currentState = [WSEditState stateWithSearchController:self];
+    [self updateStatusBar];
 }
 
 #pragma mark - Table view data source
@@ -223,7 +224,7 @@ const NSInteger kMaxKeywordCount = 500;
                ![change[@"new"] boolValue]) {
       --weakSelf.activeOperationsCount;
     }
-    
+    [weakSelf updateStatusBar];
     
   });
  
@@ -264,12 +265,20 @@ const NSInteger kMaxKeywordCount = 500;
 }
 
 - (void)updateStatusBar {
-  self.statusLabel.text = [NSString stringWithFormat:@"th: %ld p: %ld p result: %ld",(long)self.activeOperationsCount, (long)self.parsedPagesCount, (long)self.foundedKewordPagesCount];
+  self.statusLabel.text = [NSString stringWithFormat:@"threads: %ld pages: %ld pages with result: %ld",(long)self.activeOperationsCount, (long)self.parsedPagesCount, (long)self.foundedKewordPagesCount];
 
 }
 
 - (void)array:(CEObservableMutableArray *)array didRemoveItemAtIndex:(NSUInteger) index {
   [self updateStatusBar];
   [self.tableView reloadData];
+}
+
+- (void)resetSearchProgress {
+  self.activeOperationsCount = 0;
+  self.parsedPagesCount = 0;
+  self.foundedKewordPagesCount = 0;
+  [self.urlsSet removeAllObjects];
+  [self.operations removeAllObjects];
 }
 @end

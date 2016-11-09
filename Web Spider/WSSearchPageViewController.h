@@ -26,4 +26,5 @@
 - (void)disableSearchBar;
 - (void)enableSearchBar;
 - (NSOperationQueue *)operationQueue;
+- (void)resetSearchProgress;
 @end
