@@ -23,7 +23,7 @@
 @property (nonatomic, strong) WSSettings *settings;
 @property (nonatomic, strong) CEObservableMutableArray *operations;
 @property (nonatomic, strong) NSMutableSet *urlsSet;
-@property (assign) NSInteger totalKeyWords;
+@property (atomic, assign) NSInteger totalKeyWords;
 @property (atomic, assign) NSInteger activeOperationsCount;
 @property (atomic, assign) NSInteger parsedPagesCount;
 @property (atomic, assign) NSInteger foundedKewordPagesCount;
@@ -180,7 +180,14 @@ const NSInteger kMaxKeywordCount = 500;
 }
 
 - (void)resume {
-  [self.currentState goToState:[WSSearchState stateWithSearchController:self]];
+  
+  if (self.totalKeyWords < kMaxKeywordCount) {
+    [self.currentState goToState:[WSSearchState stateWithSearchController:self]];
+  } else {
+    
+    self.statusLabel.text = [NSString stringWithFormat:@"Maximum keywords was found (%ld)",(long)kMaxKeywordCount];
+    [self performSelector:@selector(updateStatusBar) withObject:nil afterDelay:0.8];
+  }
 }
 
 - (void)enableSearchBar {
@@ -234,6 +241,9 @@ const NSInteger kMaxKeywordCount = 500;
       NSString *status = (requestOperation.isExecuting)?@"executing":@"in queue";
       cell.detailTextLabel.text = [NSString stringWithFormat:@"status: %@ keyword count: %ld",status,[change[@"new"] integerValue]];
       
+      ++weakSelf.totalKeyWords;
+      
+      if (weakSelf.totalKeyWords >= kMaxKeywordCount) [weakSelf pause];
     }
   });
  
@@ -295,5 +305,9 @@ const NSInteger kMaxKeywordCount = 500;
   self.foundedKewordPagesCount = 0;
   [self.urlsSet removeAllObjects];
   [self.operations removeAllObjects];
+}
+
+- (void)foundKeyword:(WSRequestOperation *)requestOperation {
+  ++self.totalKeyWords;
 }
 @end
