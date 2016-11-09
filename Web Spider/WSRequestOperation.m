@@ -152,13 +152,15 @@ const NSInteger kMaxDeep = 5;
   [self didChangeValueForKey:@"isFinished"];
 }
 
-- (NSArray *)nextLevelOperations {
+- (NSArray *)nextLevelOperationsExcept:(NSSet *)setURL {
   
   if ([self isCancelled]) return nil;
   
   NSMutableArray *result = [NSMutableArray array];
   if (self.level < kMaxDeep) {
     for (WSURL *url in self.references) {
+      
+      if ([setURL containsObject:url]) continue;
       
       WSRequestOperation *requestOperation = [WSRequestOperation operationWithURL:url andKeyword:self.keyWord];
       

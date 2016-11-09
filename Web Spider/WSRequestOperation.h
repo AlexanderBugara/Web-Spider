@@ -23,5 +23,5 @@
 @property (assign) NSInteger foundedKeywordCount;
 
 + (WSRequestOperation *)operationWithURL:(WSURL *)url andKeyword:(NSString *)keyWord;
-- (NSArray *)nextLevelOperations;
+- (NSArray *)nextLevelOperationsExcept:(NSSet *)setURL;
 @end

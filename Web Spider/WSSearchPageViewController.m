@@ -249,7 +249,10 @@ const NSInteger kMaxKeywordCount = 500;
     dispatch_async(dispatch_get_main_queue(), ^{
       
       if (!weakRequestOperation.error) {
-        NSArray *nextLevelOperations = [weakRequestOperation nextLevelOperations];
+        
+        [weakSelf.urlsSet addObject:weakRequestOperation.url];
+        
+        NSArray *nextLevelOperations = [weakRequestOperation nextLevelOperationsExcept:weakSelf.urlsSet];
         
         for (WSRequestOperation *requestOperation in nextLevelOperations) {
           [weakSelf.operations addObject:requestOperation];
@@ -261,7 +264,6 @@ const NSInteger kMaxKeywordCount = 500;
         if (weakRequestOperation.foundedKeywordCount > 0) {
           ++weakSelf.foundedKewordPagesCount;
         }
-        
         
         [weakRequestOperation removeObserver:self forKeyPath:@"isExecuting"];
         [weakRequestOperation removeObserver:self forKeyPath:@"foundedKeywordCount"];
