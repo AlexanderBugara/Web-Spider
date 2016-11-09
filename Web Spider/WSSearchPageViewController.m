@@ -258,11 +258,13 @@ const NSInteger kMaxKeywordCount = 500;
     
     dispatch_async(dispatch_get_main_queue(), ^{
       
-      if (!weakRequestOperation.error) {
+      __strong __typeof (weakRequestOperation) strongRequestOperation = weakRequestOperation;
+      
+      if (strongRequestOperation && !strongRequestOperation.error) {
         
-        [weakSelf.urlsSet addObject:weakRequestOperation.url];
+        [weakSelf.urlsSet addObject:strongRequestOperation.url];
         
-        NSArray *nextLevelOperations = [weakRequestOperation nextLevelOperationsExcept:weakSelf.urlsSet];
+        NSArray *nextLevelOperations = [strongRequestOperation nextLevelOperationsExcept:weakSelf.urlsSet];
         
         for (WSRequestOperation *requestOperation in nextLevelOperations) {
           [weakSelf.operations addObject:requestOperation];
@@ -271,16 +273,15 @@ const NSInteger kMaxKeywordCount = 500;
         
         ++weakSelf.parsedPagesCount;
         
-        if (weakRequestOperation.foundedKeywordCount > 0) {
+        if (strongRequestOperation.foundedKeywordCount > 0) {
           ++weakSelf.foundedKewordPagesCount;
         }
         
-        [weakRequestOperation removeObserver:self forKeyPath:@"isExecuting"];
-        [weakRequestOperation removeObserver:self forKeyPath:@"foundedKeywordCount"];
-        
-        [weakSelf.operations removeObject:weakRequestOperation];
+        [weakSelf unsubscribe:strongRequestOperation];
+        [weakSelf.operations removeObject:strongRequestOperation];
         
         [weakSelf updateStatusBar];
+        strongRequestOperation = nil;
       }
       
     });
@@ -303,11 +304,30 @@ const NSInteger kMaxKeywordCount = 500;
   self.activeOperationsCount = 0;
   self.parsedPagesCount = 0;
   self.foundedKewordPagesCount = 0;
+  self.totalKeyWords = 0;
+  
   [self.urlsSet removeAllObjects];
+  
+  for (WSRequestOperation *operation in self.operations) {
+    [self unsubscribe:operation];
+  }
+  
   [self.operations removeAllObjects];
 }
 
 - (void)foundKeyword:(WSRequestOperation *)requestOperation {
   ++self.totalKeyWords;
+}
+
+- (void)unsubscribe:(WSRequestOperation *)operation {
+  @try {
+    [operation removeObserver:self forKeyPath:@"isExecuting"];
+    [operation removeObserver:self forKeyPath:@"foundedKeywordCount"];
+  } @catch (NSException *exception) {
+    
+  } @finally {
+    
+  }
+  
 }
 @end
